@@ -14,7 +14,7 @@ const useAuth = (navigate) => {
       password: password
     };
 
-    fetch('http://192.168.4.204:5005/login', {
+    fetch('http://127.0.0.1:5005/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

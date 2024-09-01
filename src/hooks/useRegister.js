@@ -49,7 +49,7 @@ function useRegister() {
   const registerUser = (username, email, password) => {
     const payload = { username, email, password };
 
-    fetch('http://192.168.4.204:5005/create_user', {
+    fetch('http://127.0.0.1:5005/create_user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

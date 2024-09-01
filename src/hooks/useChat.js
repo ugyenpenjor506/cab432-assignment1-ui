@@ -14,7 +14,7 @@ const useChat = () => {
         const loadingMessage = { text: "Loading...", sender: "bot", avatar: "/qut.png" };
         setMessages(currentMessages => [...currentMessages, loadingMessage]);
 
-        fetch('http://192.168.4.204:5005/chat', {
+        fetch('http://127.0.0.1:5005/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
