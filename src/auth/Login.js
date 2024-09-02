@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './Auth.css';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -50,7 +51,7 @@ function Login() {
           {errors.form && <p className="error">{errors.form}</p>}
           <button type="submit">Login</button>
         </form>
-        <p>Don't have an account? <a href="/register">Register</a></p>
+        <p>Don't have an account? <Link to="/register">Register</Link></p>
       </div>
     </div>
   );

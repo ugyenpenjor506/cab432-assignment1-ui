@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function useRegister() {
+
+  const apiUrl = process.env.REACT_APP_API_URL
+
   const [errors, setErrors] = useState({});
   const [responseMessage, setResponseMessage] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate
@@ -49,7 +52,7 @@ function useRegister() {
   const registerUser = (username, email, password) => {
     const payload = { username, email, password };
 
-    fetch('http://127.0.0.1:5005/create_user', {
+    fetch(`${apiUrl}/create_user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

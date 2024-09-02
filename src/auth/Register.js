@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Auth.css';
 import useRegister from '../hooks/useRegister'; // Adjust the import path as needed
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -84,7 +85,7 @@ function Register() {
           <button type="submit">Register</button>
         </form>
         {responseMessage && <p className="response-message">{responseMessage}</p>}
-        <p>Already have an account? <a href="/">Login</a></p>
+        <p>Already have an account? <Link to="/">Register</Link></p>
       </div>
     </div>
   );

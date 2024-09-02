@@ -2,6 +2,8 @@
 import { useState } from "react";
 
 const useChat = () => {
+    const apiUrl = process.env.REACT_APP_API_URL
+
     const [messages, setMessages] = useState([]);
 
     const sendQuery = (query, token, callback) => {
@@ -14,7 +16,7 @@ const useChat = () => {
         const loadingMessage = { text: "Loading...", sender: "bot", avatar: "/qut.png" };
         setMessages(currentMessages => [...currentMessages, loadingMessage]);
 
-        fetch('http://127.0.0.1:5005/chat', {
+        fetch(`${apiUrl}/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

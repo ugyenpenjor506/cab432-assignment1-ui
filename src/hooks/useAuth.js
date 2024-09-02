@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
 const useAuth = (navigate) => {
+
+  const apiUrl = process.env.REACT_APP_API_URL
+  
   const [errors, setErrors] = useState({});
 
   const login = (email, password) => {
@@ -14,7 +17,7 @@ const useAuth = (navigate) => {
       password: password
     };
 
-    fetch('http://127.0.0.1:5005/login', {
+    fetch(`${apiUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
