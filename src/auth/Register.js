@@ -4,16 +4,18 @@ import useRegister from '../hooks/useRegister'; // Adjust the import path as nee
 import { Link } from 'react-router-dom';
 
 function Register() {
+  const [fullname, setFullname] = useState('');  // Add state for full name
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+
   const { errors, responseMessage, validateForm, registerUser } = useRegister();
 
   const handleRegister = (e) => {
     e.preventDefault();
     console.log('Register button clicked');
+    console.log('Fullname:', fullname);  // Log fullname
     console.log('Username:', username);
     console.log('Email:', email);
     console.log('Password:', password);
@@ -21,7 +23,8 @@ function Register() {
 
     if (validateForm(username, email, password, confirmPassword)) {
       console.log('Form is valid, calling registerUser');
-      registerUser(username, email, password);
+      // Pass fullname along with username, email, and password
+      registerUser(fullname, username, email, password);
     } else {
       console.log('Form validation failed');
       console.log('Validation errors:', errors); // Log errors for further debugging
@@ -34,6 +37,18 @@ function Register() {
         <img src="/avatar.jpeg" alt="Logo" className="logo"/>
         <h1>Register</h1>
         <form onSubmit={handleRegister}>
+          <div className="form-group">
+            <label htmlFor="fullname">Full Name:</label>  {/* Add Full Name input field */}
+            <input
+              type="text"
+              id="fullname"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              placeholder="Enter your full name"
+              required
+            />
+            {errors.fullname && <p className="error">{errors.fullname}</p>}
+          </div>
           <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
@@ -85,7 +100,7 @@ function Register() {
           <button type="submit">Register</button>
         </form>
         {responseMessage && <p className="response-message">{responseMessage}</p>}
-        <p>Already have an account? <Link to="/">Register</Link></p>
+        <p>Already have an account? <Link to="/">Login</Link></p>
       </div>
     </div>
   );

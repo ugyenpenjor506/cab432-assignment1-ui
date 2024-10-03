@@ -2,9 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function useRegister() {
-
-  const apiUrl = process.env.REACT_APP_API_URL
-
   const [errors, setErrors] = useState({});
   const [responseMessage, setResponseMessage] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate
@@ -13,6 +10,7 @@ function useRegister() {
     let isValid = true;
     let errors = {};
 
+    // Validate username
     if (!username) {
       errors.username = "Username is required";
       isValid = false;
@@ -21,6 +19,7 @@ function useRegister() {
       isValid = false;
     }
 
+    // Validate email
     if (!email) {
       errors.email = "Email is required";
       isValid = false;
@@ -29,14 +28,22 @@ function useRegister() {
       isValid = false;
     }
 
+    // Validate password
     if (!password) {
       errors.password = "Password is required";
       isValid = false;
     } else if (password.length < 8) {
       errors.password = "Password must be at least 8 characters";
       isValid = false;
+    } else if (!/[A-Z]/.test(password)) {
+      errors.password = "Password must contain at least one uppercase letter";
+      isValid = false;
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      errors.password = "Password must contain at least one special character";
+      isValid = false;
     }
 
+    // Validate confirmPassword
     if (!confirmPassword) {
       errors.confirmPassword = "Confirming password is required";
       isValid = false;
@@ -49,10 +56,10 @@ function useRegister() {
     return isValid;
   };
 
-  const registerUser = (username, email, password) => {
-    const payload = { username, email, password };
+  const registerUser = (fullname, username, email, password) => {  // Include fullname in the parameters
+    const payload = { fullname, username, email, password };  // Add fullname to the payload
 
-    fetch(`${apiUrl}/create_user`, {
+    fetch('http://localhost:5005/create_user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -3,7 +3,7 @@
     color: #ff4b4b; /* Red color to indicate error */
     font-size: 14px; /* Slightly smaller font size */
     margin-top: 5px; /* Space above the error message */
-    margin-bottom: -15px; /* Negative margin to adjust spacing */
+    margin-bottom: 10px; /* Adjust margin to create space below error message */
     display: block; /* Ensure the error is displayed as a block element */
 }
 
@@ -49,6 +49,7 @@
 .form-group {
     width: 100%;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .form-group label {
@@ -66,10 +67,11 @@
     font-size: 16px;
 }
 
-.chat-button {
+/* Adjust button positioning and spacing */
+button {
     width: 100%;
     padding: 12px;
-    margin-top: 20px;
+    margin-top: 10px; /* Increased margin to avoid overlap */
     border: none;
     border-radius: 5px;
     background-color: #61dafb;
@@ -81,6 +83,20 @@
 
 button:hover {
     background-color: #4fa3c3;
+}
+
+/* Ensure error messages don't overlap the button */
+.google-button {
+    width: 48%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #61dafb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 p {
@@ -97,17 +113,3 @@ a:hover {
     text-decoration: underline;
 }
 
-.signout-button {
-    padding: 8px 16px;
-    margin-top: 10px;
-    background-color: #ff4b4b;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.signout-button:hover {
-    background-color: #e04343;
-}

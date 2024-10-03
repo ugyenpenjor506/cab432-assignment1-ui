@@ -1,7 +1,10 @@
+// Updated Home.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useChat from "../hooks/useChat";
-import "../home/Home.css";
+import Sidebar from "../sidebar/Sidebar";
+import Header from "../header/Header";
+import "./Home.css";
 
 function Home() {
   const [question, setQuestion] = useState("");
@@ -11,12 +14,21 @@ function Home() {
   const { messages, sendQuery } = useChat();
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get("token");
+    const usernameFromUrl = params.get("username");
+
     const storedUsername = localStorage.getItem("username");
     const token = localStorage.getItem("token");
-    if (!storedUsername || !token) {
-      navigate("/");
-    } else {
+
+    if (tokenFromUrl && usernameFromUrl) {
+      localStorage.setItem("token", tokenFromUrl);
+      localStorage.setItem("username", usernameFromUrl);
+      setUsername(usernameFromUrl);
+    } else if (storedUsername && token) {
       setUsername(storedUsername);
+    } else {
+      navigate("/");
     }
   }, [navigate]);
 
@@ -32,49 +44,20 @@ function Home() {
       navigate("/");
       return;
     }
-    setIsLoading(true); // Start loading
-    sendQuery(question, token, () => setIsLoading(false)); // Stop loading when the query completes
+    setIsLoading(true);
+    sendQuery(question, token, () => setIsLoading(false));
     setQuestion("");
-  };
-
-  const handleSignOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    navigate("/");
   };
 
   return (
     <div className="App">
-      <aside className="sidebar">
-        <img src="/logo.jpeg" alt="Profile" className="profile-pic" />
-        <h1>TechNova Assistant</h1>
-        <p>
-          I'm a friendly AI here to help you with any queries regarding our
-          company.
-        </p>
-        <button className="signout-button" onClick={handleSignOut}>
-          Sign Out
-        </button>
-      </aside>
+      <Sidebar username={username} />
+
       <main className="chat-container">
-        <div className="chat-header">
-          <div
-            className="header-avatar"
-            style={{
-              backgroundColor: "#666",
-              color: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "50%",
-              width: "50px",
-              height: "50px",
-            }}
-          >
-            {getInitials(username)}
-          </div>
-          <h3>{username}</h3>
-        </div>
+        <Header
+          username={username}
+          token={localStorage.getItem("token")} // Pass the token to Header
+        />
         <div className="chat-box">
           {messages.map((message, index) => (
             <div key={index} className={`message ${message.sender}`}>
@@ -91,7 +74,9 @@ function Home() {
                   height: "40px",
                 }}
               >
-                {message.sender === "user" ? getInitials(username) : (
+                {message.sender === "user" ? (
+                  <span>{username.charAt(0)}</span>
+                ) : (
                   <img
                     src="/avatar.jpeg"
                     alt="Chat Avatar"
@@ -118,27 +103,23 @@ function Home() {
           )}
         </div>
 
-        <form className="input-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={question}
-            onChange={handleInputChange}
-            placeholder="Type your question here..."
-            autoFocus
-          />
-          <button type="submit">Send</button>
-        </form>
+        <div>
+          <form className="input-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={question}
+              onChange={handleInputChange}
+              placeholder="Type your question here..."
+              autoFocus
+            />
+            <button className="chat-button" type="submit">
+              Send
+            </button>
+          </form>
+        </div>
       </main>
     </div>
   );
-}
-
-function getInitials(name) {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
 }
 
 export default Home;

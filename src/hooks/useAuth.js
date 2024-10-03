@@ -1,44 +1,53 @@
 import { useState } from 'react';
 
 const useAuth = (navigate) => {
-
-  const apiUrl = process.env.REACT_APP_API_URL
-  
   const [errors, setErrors] = useState({});
 
-  const login = (email, password) => {
-    if (!email || !password) {
-      setErrors({ form: "Email and password are required" });
+  const login = (username, password) => {
+    if (!username || !password) {
+      setErrors({ form: "Username and password are required" });
       return;
     }
 
     const loginData = {
-      username_or_email: email,
+      username: username,
       password: password
     };
 
-    fetch(`${apiUrl}/login`, {
+    fetch('http://localhost:5005/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(loginData)
     })
-    .then(response => response.json())
+    .then(response => {
+      if (response.status === 401) {
+        // If the server responds with 401 (Unauthorized), handle it
+        return response.json().then(data => {
+          setErrors({ form: "Invalid username or password" });
+        });
+      } else if (response.status === 200) {
+        // If successful, return the JSON data
+        return response.json();
+      } else {
+        // For any other non-200 status, show a generic error
+        return response.json().then(data => {
+          setErrors({ form: "Login failed: " + data.error });
+        });
+      }
+    })
     .then(data => {
-      if (data.code === 200) {
+      if (data && data.code === 200) {
         console.log('Login successful:', data);
         localStorage.setItem('token', data.token);  // Store the token
-        localStorage.setItem('username', data.user.UserName);  // Store the username
+        localStorage.setItem('username', data.username);  // Store the username
         navigate('/home'); // Navigate to home page on success
-      } else {
-        console.log('Login failed:', data.message);
-        setErrors({ form: "Login failed: " + data.message });
       }
     })
     .catch(error => {
       console.error('Error during login:', error);
-      setErrors({ form: "Login request failed" });
+      setErrors({ form: "Login request failed. Please try again later." });
     });
   };
 
