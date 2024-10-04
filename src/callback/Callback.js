@@ -11,7 +11,7 @@ function Callback() {
 
     if (code) {
       // Send the code to the backend to exchange it for tokens
-      fetch('http://localhost:5005/callback?code=' + code)
+      fetch(`${process.env.REACT_APP_BASE_URL}/callback?code=` + code)
         .then(response => response.json())
         .then(data => {
           if (data.token) {

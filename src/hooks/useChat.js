@@ -14,7 +14,7 @@ const useChat = () => {
         const loadingMessage = { text: "Loading...", sender: "bot", avatar: "/qut.png" };
         setMessages(currentMessages => [...currentMessages, loadingMessage]);
 
-        fetch('http://localhost:5005/chat', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/chat`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

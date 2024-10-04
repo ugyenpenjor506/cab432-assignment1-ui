@@ -59,7 +59,7 @@ function useRegister() {
   const registerUser = (fullname, username, email, password) => {  // Include fullname in the parameters
     const payload = { fullname, username, email, password };  // Add fullname to the payload
 
-    fetch('http://localhost:5005/create_user', {
+    fetch(`${process.env.REACT_APP_BASE_URL}/create_user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

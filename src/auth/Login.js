@@ -17,7 +17,7 @@ function Login() {
 
   // Google login handler
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:5005/login_with_google'; // Redirect to your backend route
+    window.location.href = `${process.env.REACT_APP_BASE_URL}/login_with_google`; // Redirect to your backend route
   };
 
   return (

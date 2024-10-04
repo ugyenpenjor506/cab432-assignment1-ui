@@ -25,7 +25,7 @@ function Header({ token }) {
   // Function to fetch the profile picture URL
   const fetchProfilePicture = async (token) => {
     try {
-      const response = await fetch('http://localhost:5005/download-profile-picture', {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/download-profile-picture`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ function Header({ token }) {
     formData.append("profile_pic", selectedFile);
 
     try {
-      const response = await fetch("http://localhost:5005/upload-profile-picture", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/upload-profile-picture`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`, // Add the Authorization token in the headers

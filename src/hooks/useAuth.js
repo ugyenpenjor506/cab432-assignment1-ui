@@ -14,7 +14,7 @@ const useAuth = (navigate) => {
       password: password
     };
 
-    fetch('http://localhost:5005/login', {
+    fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

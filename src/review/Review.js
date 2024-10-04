@@ -40,7 +40,7 @@ function Review() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5005/get_all_users", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/get_all_users`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ function Review() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:5005/get-all-feedback", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/get-all-feedback`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ function Review() {
     };
 
     try {
-      const response = await fetch("http://localhost:5005/submit-feedback", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/submit-feedback`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`, // Include the token in the Authorization header
